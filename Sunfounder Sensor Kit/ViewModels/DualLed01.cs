@@ -107,14 +107,14 @@ namespace SunfounderSensorKit.ViewModels
                 switch (pin.Key.ToUpper())
                 {
                     case "R":
-                        // ReSharper disable once PossibleLossOfFraction
-                        activeDutyCycle = r / 100;
+                        activeDutyCycle = r;
                         break;
                     case "G":
-                        // ReSharper disable once PossibleLossOfFraction
-                        activeDutyCycle = g / 100;
+                        activeDutyCycle = g;
                         break;
                 }
+
+                activeDutyCycle = activeDutyCycle / 100;
 
                 Debug.WriteLine($"Setting Duty Percentage To {activeDutyCycle} for pin {pin} and color {color}");
 
