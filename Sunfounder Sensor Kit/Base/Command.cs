@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace FD.Base
+namespace SunfounderSensorKit.Base
 {
     public class CommandBase : ICommand
     {

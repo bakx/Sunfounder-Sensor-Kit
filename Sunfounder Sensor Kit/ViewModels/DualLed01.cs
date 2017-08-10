@@ -11,17 +11,16 @@ using SunfounderSensorKit.Base;
 
 namespace SunfounderSensorKit.ViewModels
 {
-    public class RgbLed02 : ViewModelBase
+    public class DualLed01 : ViewModelBase
     {
         private readonly Dictionary<GpioPin, PwmPin> boardPins = new Dictionary<GpioPin, PwmPin>();
 
-        private readonly int[] colors =
-            {0xFF0000, 0x00FF00, 0x0000FF, 0xFFFF00, 0xFF00FF, 0x00FFFF, 0xFF6600, 0x5EFFD1, 0x000000};
+        private readonly int[] colors = {0xFF00, 0x00FF, 0x0FF0, 0xF00F};
 
-        //private readonly Dictionary<string, int> pins = new Dictionary<string, int> {{"R", 11}, {"G", 12}, {"B", 13}};
-        private readonly Dictionary<string, int> pins = new Dictionary<string, int> {{"R", 17}, {"G", 18}, {"B", 27}};
+        //private readonly Dictionary<string, int> pins = new Dictionary<string, int> {{"R", 11}, {"G", 12}};
+        private readonly Dictionary<string, int> pins = new Dictionary<string, int> {{"R", 17}, {"G", 18}};
 
-        public RgbLed02()
+        public DualLed01()
         {
             SetupAsync().ConfigureAwait(false);
         }
@@ -39,7 +38,7 @@ namespace SunfounderSensorKit.ViewModels
 
                 PwmPin pmwPin = PwmController.OpenPin(pin.Value);
                 pmwPin.SetActiveDutyCyclePercentage(1.0);
-                pmwPin.Controller.SetDesiredFrequency(40);
+                pmwPin.Controller.SetDesiredFrequency(200);
                 pmwPin.Start();
 
                 boardPins.Add(gpioPin, pmwPin);
@@ -98,9 +97,8 @@ namespace SunfounderSensorKit.ViewModels
 
         private void SetColor(int color)
         {
-            int r = Map((color & 0xff0000) >> 16, 0, 255, 0, 100);
-            int g = Map((color & 0x00ff00) >> 8, 0, 255, 0, 100);
-            int b = Map((color & 0x0000ff) >> 0, 0, 255, 0, 100);
+            int r = Map(color >> 8, 0, 255, 0, 100);
+            int g = Map(color & 0x00FF, 0, 255, 0, 100);
 
             foreach (KeyValuePair<string, int> pin in pins)
             {
@@ -115,10 +113,6 @@ namespace SunfounderSensorKit.ViewModels
                     case "G":
                         // ReSharper disable once PossibleLossOfFraction
                         activeDutyCycle = g / 100;
-                        break;
-                    case "B":
-                        // ReSharper disable once PossibleLossOfFraction
-                        activeDutyCycle = b / 100;
                         break;
                 }
 

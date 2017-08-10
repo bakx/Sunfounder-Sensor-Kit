@@ -1,7 +1,4 @@
 ﻿using System.ComponentModel;
-using Windows.Devices.Gpio;
-using Windows.Devices.Pwm;
-using FD.Base;
 
 namespace SunfounderSensorKit.Base
 {
