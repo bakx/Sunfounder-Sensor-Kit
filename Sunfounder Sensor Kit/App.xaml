@@ -1,8 +1,8 @@
 ﻿<Application
-    x:Class="Sunfounder_Sensor_Kit.App"
+    x:Class="SunfounderSensorKit.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Sunfounder_Sensor_Kit"
+    xmlns:local="using:SunfounderSensorKit"
     RequestedTheme="Light">
 
 </Application>

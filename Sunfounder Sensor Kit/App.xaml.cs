@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace Sunfounder_Sensor_Kit
+namespace SunfounderSensorKit
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
