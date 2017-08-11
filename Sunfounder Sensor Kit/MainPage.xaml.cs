@@ -12,7 +12,7 @@ namespace SunfounderSensorKit
         public MainPage()
         {
             InitializeComponent();
-            DataContext = new DualLed01();
+            DataContext = new PassiveBuzzer10();
         }
     }
 }

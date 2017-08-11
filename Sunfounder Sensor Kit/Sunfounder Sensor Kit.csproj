@@ -104,8 +104,9 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\DualLed01.cs" />
-    <Compile Include="ViewModels\RgbLed02.cs" />
+    <Compile Include="ViewModels\01_DualLed.cs" />
+    <Compile Include="ViewModels\10_PassiveBuzzer.cs" />
+    <Compile Include="ViewModels\02_RgbLed.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
