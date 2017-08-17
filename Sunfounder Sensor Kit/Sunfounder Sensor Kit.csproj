@@ -101,7 +101,6 @@
     <Compile Include="Base\Command.cs" />
     <Compile Include="Base\ViewModelBase.cs" />
     <Compile Include="Diagnostics\Class1.cs" />
-    <Compile Include="Library\LCD_I2C.cs" />
     <Compile Include="Library\PCF8591.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

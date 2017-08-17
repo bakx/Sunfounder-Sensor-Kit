@@ -41,7 +41,6 @@ namespace SunfounderSensorKit.ViewModels
 
                 if (value.Length > 0)
                 {
-                    SendCommand(0x01);
                     Write(0, 0, value);
                 }
             }
