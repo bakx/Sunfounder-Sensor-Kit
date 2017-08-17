@@ -12,9 +12,11 @@ namespace SunfounderSensorKit
         public MainPage()
         {
             InitializeComponent();
-            new RgbLed02();
-            new PassiveBuzzer10();
-            DataContext = new I2CLcd160230();
+//            new Test();
+            new Thermistor80();
+            //new PassiveBuzzer10();
+            //new RgbLed02();
+            //DataContext = new I2CLcd160230();
         }
     }
 }

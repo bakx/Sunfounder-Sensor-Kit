@@ -100,7 +100,9 @@
     </Compile>
     <Compile Include="Base\Command.cs" />
     <Compile Include="Base\ViewModelBase.cs" />
+    <Compile Include="Diagnostics\Class1.cs" />
     <Compile Include="Library\LCD_I2C.cs" />
+    <Compile Include="Library\PCF8591.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -108,6 +110,8 @@
     <Compile Include="ViewModels\01_DualLed.cs" />
     <Compile Include="ViewModels\10_PassiveBuzzer.cs" />
     <Compile Include="ViewModels\02_RgbLed.cs" />
+    <Compile Include="ViewModels\Test.cs" />
+    <Compile Include="ViewModels\18_thermistor.cs" />
     <Compile Include="ViewModels\30_i2c_lcd1602.cs" />
   </ItemGroup>
   <ItemGroup>
