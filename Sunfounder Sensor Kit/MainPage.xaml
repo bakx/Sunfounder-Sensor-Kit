@@ -8,9 +8,9 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel Orientation="Vertical">
-            <TextBlock Text="Text"></TextBlock>
-            <TextBox Text="{Binding DisplayText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+            <TextBlock Text="Text" />
+            <TextBox Text="{Binding DisplayText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
     </Grid>
-          
+
 </Page>

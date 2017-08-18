@@ -15,15 +15,16 @@ namespace SunfounderSensorKit.ViewModels
     {
         private const byte Address = 0x48;
         private const byte Address2 = 0x45;
+        private I2cDevice i2CDevice;
 
         private Pcf8591 pcf8591;
-        protected I2cController I2CController { get; set; }
-        private I2cDevice i2CDevice;
 
         public Thermistor80()
         {
             SetupAsync().ConfigureAwait(true);
         }
+
+        protected I2cController I2CController { get; set; }
 
         protected SpiController SpiController { get; set; }
         protected GpioController GpioController { get; set; }
@@ -36,7 +37,7 @@ namespace SunfounderSensorKit.ViewModels
                 {
                     Debug.WriteLine(GetTemp(pcf, Address));
                     Debug.WriteLine(GetTemp(pcf, Address2));
-                    
+
                     await Task.Delay(500).ConfigureAwait(true);
                 }
                 catch

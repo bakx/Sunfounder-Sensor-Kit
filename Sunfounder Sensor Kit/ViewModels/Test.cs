@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Windows.Devices;
 using Windows.Devices.I2c;
+using Windows.UI.Xaml;
 using Microsoft.IoT.Lightning.Providers;
 using SunfounderSensorKit.Base;
 using SunfounderSensorKit.Library;
@@ -17,9 +18,9 @@ namespace SunfounderSensorKit.ViewModels
         private I2cDevice displayDevice;
 
         private Lcd lcd;
-
-        private Pcf8591 pcf8591;
         private I2cDevice thermalDevice;
+
+        private Pcf8591 thermalMonitor;
 
         public Test()
         {
@@ -28,38 +29,33 @@ namespace SunfounderSensorKit.ViewModels
 
         protected I2cController I2CController { get; set; }
 
-        public async Task RunAsync(Pcf8591 pcf)
+        public void Run(Pcf8591 thermal)
         {
-            while (true)
+            try
             {
-                try
-                {
-                    // Clear Display
-                    displayDevice.Write(new byte[] {0x01});
+                // Clear Display
+                //displayDevice.Write(new byte[] { 0x01 });
 
-                    lcd.Write(0, 0, $"Temp #1: {GetTemp(pcf, ThermalAddress)} C");
-                    lcd.Write(0, 1, $"Temp #2: {GetTemp(pcf, ThermalAddress2)} C");
-                    lcd.Write(0, 3, $"Time: {DateTime.Now:HH:mm:ss}");
-
-                    await Task.Delay(750).ConfigureAwait(true);
-                }
-                catch
-                {
-                    // ignored
-                }
+                lcd.Write(0, 0, $"Temp #1: {GetTemp(thermal, ThermalAddress, 0)} C");
+                lcd.Write(0, 1, $"Temp #2: {GetTemp(thermal, ThermalAddress, 1)} C");
+                lcd.Write(0, 2, $"Temp #3: {GetTemp(thermal, ThermalAddress, 2)} C");
+                lcd.Write(0, 3, $"Time: {DateTime.Now:HH:mm:ss tt}");
             }
-            // ReSharper disable once FunctionNeverReturns
+            catch
+            {
+                // ignored
+            }
         }
 
-        private static double GetTemp(Pcf8591 pcf, byte address)
+        private static double GetTemp(Pcf8591 pcf, byte address, int channel)
         {
-            byte[] a = pcf.Read(address, 1);
+            byte[] a = pcf.Read(address, channel);
             double vr = 5 * Convert.ToDouble(a[0]) / 255;
             double rt = 10000 * vr / (5 - vr);
             double temp = 1 / (Math.Log(rt / 10000) / 3950 + 1 / (273.15 + 25));
 
             temp = temp - 273.15;
-            return Math.Round(temp, 4);
+            return Math.Round(temp, 3);
         }
 
         public async Task SetupAsync()
@@ -71,13 +67,16 @@ namespace SunfounderSensorKit.ViewModels
             lcd = new Lcd(Lcd.LcdType.Lcd1604, 5, displayDevice);
             await lcd.ConfigureLcdAsync().ConfigureAwait(true);
 
-            await RunAsync(pcf8591).ConfigureAwait(false);
+            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += (sender, args) => Run(thermalMonitor);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            dispatcherTimer.Start();
         }
 
         private void ConfigureSensors()
         {
-            pcf8591 = new Pcf8591();
-            pcf8591.Setup(thermalDevice, "#1");
+            thermalMonitor = new Pcf8591();
+            thermalMonitor.Setup(thermalDevice, "#1");
         }
 
         private async Task InitializeControllersAsync()

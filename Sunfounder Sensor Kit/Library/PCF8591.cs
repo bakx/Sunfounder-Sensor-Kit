@@ -17,23 +17,23 @@ namespace SunfounderSensorKit.Library
 
         public byte[] Read(byte address, int channel)
         {
-            byte[] writeByte = {};
+            byte[] writeByte = { };
 
             try
             {
                 switch (channel)
                 {
                     case 0:
-                        writeByte = new byte[] { address , 0x40};
+                        writeByte = new byte[] {0x40};
                         break;
                     case 1:
-                        writeByte = new byte[] { address, 0x41 };
+                        writeByte = new byte[] {0x41};
                         break;
                     case 2:
-                        writeByte = new byte[] { address, 0x42 };
+                        writeByte = new byte[] {0x42};
                         break;
                     case 3:
-                        writeByte = new byte[] { address, 0x43 };
+                        writeByte = new byte[] {0x43};
                         break;
                 }
 
@@ -41,7 +41,7 @@ namespace SunfounderSensorKit.Library
 
                 byte[] buffer = new byte[1];
                 i2CDevice.Read(buffer);
-                //i2CDevice.Read(buffer);
+                i2CDevice.Read(buffer);
                 return buffer;
             }
             catch (Exception e)

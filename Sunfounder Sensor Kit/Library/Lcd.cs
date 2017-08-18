@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using Windows.Devices.I2c;
 
 namespace SunfounderSensorKit.Library
@@ -15,7 +16,7 @@ namespace SunfounderSensorKit.Library
         private readonly bool enableBacklight;
 
         private readonly I2cDevice i2CDevice;
-        private LcdType lcdType;
+        private readonly LcdType lcdType;
 
         public Lcd(LcdType type, int delay, I2cDevice device, bool backlight = true)
         {
@@ -66,8 +67,8 @@ namespace SunfounderSensorKit.Library
 
         public void Write(int x = 0, int y = 0, string data = "")
         {
-            int maxX = (lcdType == LcdType.Lcd1602) ? 15 : 20;
-            int maxY = (lcdType == LcdType.Lcd1602) ? 2 : 4;
+            int maxX = lcdType == LcdType.Lcd1602 ? 15 : 20;
+            int maxY = lcdType == LcdType.Lcd1602 ? 2 : 4;
 
             if (x < 0)
             {
@@ -88,6 +89,15 @@ namespace SunfounderSensorKit.Library
             {
                 y = maxY;
             }
+
+            // Fill up unused data with spaces
+            if (data.Length < maxX)
+            {
+                data = data.PadRight(maxX - data.Length, ' ');
+            }
+
+            // Debug
+            Debug.WriteLine($"Sending: {data}");
 
             // Set cursor position
             if (lcdType == LcdType.Lcd1602)

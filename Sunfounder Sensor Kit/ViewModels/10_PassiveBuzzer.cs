@@ -13,7 +13,6 @@ namespace SunfounderSensorKit.ViewModels
     public class PassiveBuzzer10 : ViewModelBase
     {
         private const int Buzzer = 26; // GPIO Pin
-        private readonly bool play;
 
         private static readonly int[] Cl = {0, 131, 147, 165, 175, 196, 211, 248}; // Frequency of Low C notes
 
@@ -43,6 +42,8 @@ namespace SunfounderSensorKit.ViewModels
             1, 2, 2, 1, 1, 2, 2, 1,
             1, 2, 2, 1, 1, 3
         };
+
+        private readonly bool play;
 
         /// <summary>
         ///     Notes of song1
@@ -106,7 +107,7 @@ namespace SunfounderSensorKit.ViewModels
 
         public Task BeepAsync(int frequence = 500)
         {
-            return PlaySoundAsync(new[] { frequence }, new[] { 1 });
+            return PlaySoundAsync(new[] {frequence}, new[] {1});
         }
 
         public async Task SetupAsync()

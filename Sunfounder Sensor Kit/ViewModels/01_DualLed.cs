@@ -17,7 +17,7 @@ namespace SunfounderSensorKit.ViewModels
 
         private readonly int[] colors = {0xFF00, 0x00FF, 0x0FF0, 0xF00F};
 
-        private readonly Dictionary<string, int> pins = new Dictionary<string, int> { { "R", 20 }, { "G", 21 } };
+        private readonly Dictionary<string, int> pins = new Dictionary<string, int> {{"R", 20}, {"G", 21}};
 
         public DualLed01()
         {
