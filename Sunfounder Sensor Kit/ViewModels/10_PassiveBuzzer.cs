@@ -13,7 +13,7 @@ namespace SunfounderSensorKit.ViewModels
     public class PassiveBuzzer10 : ViewModelBase
     {
         private const int Buzzer = 26; // GPIO Pin
-        private bool play = true;
+        private readonly bool play;
 
         private static readonly int[] Cl = {0, 131, 147, 165, 175, 196, 211, 248}; // Frequency of Low C notes
 
@@ -45,16 +45,6 @@ namespace SunfounderSensorKit.ViewModels
         };
 
         /// <summary>
-        ///     Beats of song 3, 1 means 1/8 beats
-        /// </summary>
-        private readonly int[] beat3 =
-        {
-            3,3,3,3,3,3,3,
-            3,3,3,3,3,3,3,
-            3,3,3,3,3,3,3
-        };
-
-        /// <summary>
         ///     Notes of song1
         /// </summary>
         private readonly int[] song1 =
@@ -74,13 +64,6 @@ namespace SunfounderSensorKit.ViewModels
             Cm[1], Cm[3], Cm[5], Cm[5], Cm[4], Cm[3], Cm[2], Cm[2],
             Cm[3], Cm[4], Cm[4], Cm[3], Cm[2], Cm[3], Cm[1], Cm[1],
             Cm[3], Cm[2], Cl[5], Cl[7], Cm[2], Cm[1]
-        };
-
-        private readonly int[] song3 =
-        {
-            Cl[1], Cl[2], Cl[3], Cl[4], Cl[5], Cl[6], Cl[7],
-            Cm[1], Cm[2], Cm[3], Cm[4], Cm[5], Cm[6], Cm[7],
-            Ch[1], Ch[2], Ch[3], Ch[4], Ch[5], Ch[6], Ch[7]
         };
 
         /// <summary>

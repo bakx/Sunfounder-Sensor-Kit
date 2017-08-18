@@ -80,6 +80,7 @@ namespace SunfounderSensorKit.ViewModels
 
                 // ReSharper disable once AsyncConverter.ConfigureAwaitHighlighting
                 I2CController = await I2cController.GetDefaultAsync();
+                i2CDevice = I2CController.GetDevice(new I2cConnectionSettings(ControllerAddress));
             }
         }
     }
