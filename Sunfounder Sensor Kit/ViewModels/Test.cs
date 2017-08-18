@@ -28,8 +28,6 @@ namespace SunfounderSensorKit.ViewModels
         public async Task SetupAsync()
         {
             await InitializeControllersAsync().ConfigureAwait(true);
-            var a = Diagnostics.DeviceHelper.FindDevicesAsync();
-
         }
 
         private async Task InitializeControllersAsync()
