@@ -1,26 +1,25 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Devices;
 using Windows.Devices.Gpio;
 using Windows.Devices.I2c;
 using Microsoft.IoT.Lightning.Providers;
 using SunfounderSensorKit.Base;
+using SunfounderSensorKit.Library;
 
 namespace SunfounderSensorKit.ViewModels
 {
     public class I2CLcd160230 : ViewModelBase
     {
         private const int ControllerAddress = 0x27;
-        private readonly bool enableBacklight;
         private const int Delay = 20;
 
         private string displayText;
         private I2cDevice i2CDevice;
+        private Lcd lcd;
 
-        public I2CLcd160230(bool backlight = true)
+        public I2CLcd160230()
         {
-            enableBacklight = backlight;
             SetupAsync().ConfigureAwait(false);
         }
 
@@ -41,106 +40,22 @@ namespace SunfounderSensorKit.ViewModels
 
                 if (value.Length > 0)
                 {
-                    Write(0, 0, value);
+                    lcd.Write(0, 0, value);
                 }
             }
-        }
-
-        private void WriteWord(int command)
-        {
-            if (enableBacklight)
-            {
-                command |= 0x08;
-            }
-            else
-            {
-                command &= 0xF7;
-            }
-
-            Debug.WriteLine($"Sending {command}");
-            i2CDevice.Write(new[] { (byte) command});
-        }
-
-        public void SendCommand(int command, int buffer = 0x04)
-        {
-            int buf = command & 0xF0;
-            buf |= buffer; // # RS = 0, RW = 0, EN = 1
-            WriteWord(buf);
-
-            buf &= 0xFB; //            # Make EN = 0
-            WriteWord(buf);
-
-            // # Send bit3-0 secondly
-            buf = (command & 0x0F) << 4;
-            buf |= buffer; //               # RS = 0, RW = 0, EN = 1
-            WriteWord(buf);
-
-            buf &= 0xFB; //               # Make EN = 0
-            WriteWord(buf);
         }
 
         public async Task SetupAsync()
         {
             await InitializeControllersAsync().ConfigureAwait(true);
-            await ConfigureLcdAsync().ConfigureAwait(true);
 
-            Write(0, 0, "Greetings!!");
-            Write(0, 1, "from SunFounder");
-        }
+            lcd = new Lcd(Lcd.LcdType.Lcd1604, Delay, i2CDevice);
+            await lcd.ConfigureLcdAsync().ConfigureAwait(true);
 
-        public void Write(int x = 0, int y = 0, string data = "")
-        {
-            if (x < 0)
-            {
-                x = 0;
-            }
-
-            if (x > 15)
-            {
-                x = 15;
-            }
-
-            if (y < 0)
-            {
-                y = 0;
-            }
-
-            if (y > 1)
-            {
-                y = 1;
-            }
-
-            SendCommand(0x80 + 0x40 * y + x);
-
-            foreach (char c in data)
-            {
-                SendCommand(c, 0x05);
-            }
-        }
-
-        private async Task ConfigureLcdAsync()
-        {
-            SendCommand(0x33); // Must initialize to 8-line mode at first
-
-            await Task.Delay(Delay).ConfigureAwait(true);
-
-            SendCommand(0x32); // Then initialize to 4-line mode
-
-            await Task.Delay(Delay).ConfigureAwait(true);
-
-            SendCommand(0x28); // 2 Lines & 5*7 dots
-
-            await Task.Delay(Delay).ConfigureAwait(true);
-
-            SendCommand(0x0C); // Enable display without cursor
-
-            await Task.Delay(Delay).ConfigureAwait(true);
-
-            SendCommand(0x01); // Clear Screen
-
-            await Task.Delay(Delay).ConfigureAwait(true);
-
-            WriteWord(0x08);
+            lcd.Write(0, 0, "Greetings!!");
+            lcd.Write(0, 1, "from SunFounder");
+            lcd.Write(0, 2, "=================");
+            lcd.Write(0, 3, "^_^");
         }
 
         private async Task InitializeControllersAsync()

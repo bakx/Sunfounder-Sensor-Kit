@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Diagnostics;
 using Windows.Devices.I2c;
-using Windows.Devices.Spi;
 
 namespace SunfounderSensorKit.Library
 {
     public class Pcf8591
     {
-        private I2cDevice i2cDevice;
-        private SpiDevice spiDevice;
+        private I2cDevice i2CDevice;
         public string DeviceName { get; set; }
 
-        public void Setup(SpiDevice device, string name)
+        public void Setup(I2cDevice device, string name)
         {
-            spiDevice = device;
+            i2CDevice = device;
             DeviceName = name;
         }
 
         public byte[] Read(byte address, int channel)
         {
-            byte[] writeByte = {0x1};
+            byte[] writeByte = {};
 
             try
             {
@@ -39,19 +37,11 @@ namespace SunfounderSensorKit.Library
                         break;
                 }
 
-                spiDevice.Write(writeByte);
+                i2CDevice.Write(writeByte);
 
                 byte[] buffer = new byte[1];
-                buffer[0] = address;
-                byte[] readBuffer = new byte[1];
-                spiDevice.TransferFullDuplex(buffer, readBuffer);
-                return readBuffer;
-
-                //byte[] buffer = new byte[2];
-                //spiDevice.Write(writeByte);
-                //spiDevice.Read(buffer);
-                //i2cDevice.WriteRead(writeByte, buffer);
-
+                i2CDevice.Read(buffer);
+                //i2CDevice.Read(buffer);
                 return buffer;
             }
             catch (Exception e)
