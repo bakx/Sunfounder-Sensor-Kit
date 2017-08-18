@@ -14,10 +14,7 @@ namespace SunfounderSensorKit
             InitializeComponent();
 
             //new DualLed01();
-//            new Test();
-            new Thermistor80();
-            //new PassiveBuzzer10();
-            //new RgbLed02();
+            new Test();
             //DataContext = new I2CLcd160230();
         }
     }
